@@ -1,5 +1,5 @@
 window.SEMINAR_DATA = {
-  "updated": "2026-10-24T08:54:20.005Z",
+  "updated": "2026-10-24T09:10:28.937Z",
   "settings": {
     "name": "Comparative Politics Seminar",
     "department": "Department of Political Science",
@@ -9,7 +9,7 @@ window.SEMINAR_DATA = {
       "Sirus Dehdari"
     ],
     "contact": "jan.teorell@statsvet.su.se",
-    "about": "The Comparative Politics Seminar is a research seminar series at the Department of Political Science, Stockholm University. Researchers present ongoing work in comparative politics, political economy and related fields. Everyone is welcome.",
+    "about": "The Comparative Politics Seminar is a research seminar series at the Department of Political Science, Stockholm University. Researchers present ongoing work in comparative politics, political economy and related fields. Want to be added to the mailing list? Contact [Jan Teorell](https://www.su.se/english/profiles/j/jate5800).",
     "standard": {
       "weekday": "Tuesday",
       "start": "11:45",

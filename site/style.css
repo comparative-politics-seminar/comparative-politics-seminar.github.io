@@ -96,6 +96,7 @@ h1 {
 }
 .practical span:not(:last-child)::after { content: "·"; margin: 0 10px; color: var(--header-muted); }
 .about { margin: 12px 0 0; max-width: 62ch; color: var(--header-muted); }
+.about a { color: var(--header-text); text-underline-offset: 2px; }
 
 .subscribe { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .button {
@@ -114,6 +115,32 @@ h1 {
   box-shadow: inset 0 0 0 1px var(--header-muted);
 }
 .button:hover { opacity: .9; }
+
+/* Next seminar ------------------------------------------------------------ */
+
+.next-card {
+  position: relative;
+  margin-top: -22px;
+  padding: 22px 26px 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(20, 30, 50, .08);
+}
+.next-card[hidden] { display: none; }
+.next-card p { margin: 0; }
+.next-when { margin-top: 6px !important; font-weight: 600; color: var(--muted); }
+.next-who { margin-top: 10px !important; }
+.next-who .who { display: block; }
+.next-who .who + .who { margin-top: 6px; }
+.next-who .name { font-family: var(--serif); font-size: 26px; font-weight: 600; line-height: 1.2; }
+.next-who .name.tba { font-family: var(--serif); font-style: normal; }
+.next-who .aff { display: block; margin-top: 2px; }
+.next-who .who .aff::before { content: none; }
+.next-title { margin-top: 10px !important; font-family: var(--serif); font-size: 20px; line-height: 1.35; }
+.next-title.tba { color: var(--faint); font-style: italic; }
+.next-meta { margin-top: 6px !important; color: var(--muted); }
 
 /* Search ------------------------------------------------------------------ */
 
@@ -247,7 +274,6 @@ mark { background: var(--mark); color: inherit; border-radius: 2px; padding: 0 1
 .term[open] summary::before { transform: translateY(-4px) rotate(45deg); }
 .term summary:hover .term-name { color: var(--accent); }
 .term-name { flex: 1; font-family: var(--serif); font-size: 20px; font-weight: 600; }
-.count { color: var(--muted); font-size: 14px; }
 .term .seminars { margin-bottom: 20px; }
 
 /* Footer ------------------------------------------------------------------ */
@@ -268,6 +294,9 @@ mark { background: var(--mark); color: inherit; border-radius: 2px; padding: 0 1
   .day { font-size: 22px; }
   .title { font-size: 17px; }
   .seminar.is-next { margin: 0 -10px; padding: 14px 10px; }
+  .next-card { padding: 18px 18px 20px; }
+  .next-who .name { font-size: 23px; }
+  .next-title { font-size: 18px; }
   .practical { flex-direction: column; }
   .practical span:not(:last-child)::after { content: none; }
 }

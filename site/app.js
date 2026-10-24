@@ -155,7 +155,7 @@
   const mainTerm = byTerm.has(nowTerm) ? nowTerm : future[0];
   const upcomingTerms = future.filter(t => t !== mainTerm);
   const previousTerms = termIds.filter(t => termKey(t) < termKey(nowTerm)).reverse();
-  const nextSeminar = seminars.find(s => s.date >= today && !s.cancelled && !s.speakerTBA);
+  const nextSeminar = seminars.find(s => s.date >= today && !s.cancelled);
 
   function termList(id, opts) {
     return `<ol class="seminars">${byTerm.get(id).map(s => seminarItem(s, opts)).join('')}</ol>`;
@@ -190,16 +190,37 @@
     if (previousTerms.length) {
       html += `<section class="term-section previous" id="previous">
         <h2><span class="kicker">Archive</span>Previous programs</h2>
-        ${previousTerms.map(id => {
-          const n = byTerm.get(id).filter(s => !s.cancelled).length;
-          return `<details class="term" id="${id}">
-            <summary><span class="term-name">${termLabel(id)}</span><span class="count">${n} seminar${n === 1 ? '' : 's'}</span></summary>
+        ${previousTerms.map(id => `<details class="term" id="${id}">
+            <summary><span class="term-name">${termLabel(id)}</span></summary>
             ${termList(id, { showDeviations: false })}
-          </details>`;
-        }).join('')}
+          </details>`).join('')}
       </section>`;
     }
     content.innerHTML = html;
+  }
+
+  // The box at the top: the first upcoming seminar (today's counts), or TBA if none is scheduled.
+  function renderNext() {
+    const s = nextSeminar;
+    if (!s) {
+      $('next').innerHTML = `<p class="kicker">Next seminar</p>
+        <p class="next-who"><span class="name tba">TBA</span></p>
+        <p class="next-meta">The next seminar will be announced soon.</p>`;
+      return;
+    }
+    const day = new Date(`${s.date}T12:00:00Z`).toLocaleDateString('en-GB', {
+      timeZone: 'UTC', day: 'numeric', month: 'long',
+      ...(s.date.slice(0, 4) !== today.slice(0, 4) && { year: 'numeric' }),
+    });
+    const when = [`${s.weekday} ${day}`, s.start && `${s.start}–${s.end}`, s.online ? 'Online' : `Room ${s.room ?? std.room}`];
+    const badges = s.joint ? `<p class="badges"><span class="badge joint">Joint with the ${esc(settings.jointSeminarName)}</span></p>` : '';
+    $('next').innerHTML = `<p class="kicker">${s.date === today ? 'Today' : 'Next seminar'}</p>
+      <p class="next-when">${when.filter(Boolean).map(esc).join(' · ')}</p>
+      <p class="next-who">${people(s)}</p>
+      ${s.title ? `<p class="next-title">${esc(s.title)}</p>` : (s.speakerTBA ? '' : '<p class="next-title tba">Title TBA</p>')}
+      ${s.coauthors ? `<p class="coauthors">with ${esc(s.coauthors)}</p>` : ''}
+      ${s.notes.length ? `<p class="notes">${s.notes.map(esc).join('<br>')}</p>` : ''}
+      ${badges}`;
   }
 
   function renderSearch(query) {
@@ -224,6 +245,7 @@
     const url = new URL(location.href);
     if (query) url.searchParams.set('q', query); else url.searchParams.delete('q');
     history.replaceState(null, '', url);
+    $('next').hidden = terms.length > 0;
     if (terms.length) renderSearch(query);
     else { $('search-status').textContent = ''; renderProgram(); }
   }
@@ -246,7 +268,9 @@
     `<span>${esc(usual.weekday)}s ${esc(usual.start)}–${esc(usual.end)}</span>` +
     `<span>Room ${esc(std.room)}</span>` +
     `<span>Organized by ${esc(listJoin(settings.organizers))}</span>`;
-  $('about').textContent = settings.about;
+  // The about text may contain links written as [text](https://...)
+  $('about').innerHTML = esc(settings.about)
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
 
   const cid = settings.calendarId;
   $('subscribe').innerHTML =
@@ -264,6 +288,7 @@
   if (initial) $('q').value = initial;
   $('q').addEventListener('input', update);
   window.addEventListener('hashchange', () => { if ($('q').value) { $('q').value = ''; update(); } openFromHash(); });
+  renderNext();
   update();
   openFromHash();
 })();
