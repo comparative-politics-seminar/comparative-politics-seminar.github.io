@@ -53,19 +53,23 @@ try {
     git status --short
 
     $changes = git status --porcelain
-    if (-not $changes) {
+    # Commits left over from an earlier run whose push failed still need pushing.
+    $unpushed = [int](git rev-list --count "@{u}..HEAD")
+    if (-not $changes -and $unpushed -eq 0) {
         Write-Host ""
         Write-Host "No changes to commit -- nothing to push." -ForegroundColor Yellow
         Start-Sleep -Seconds 2
         exit
     }
 
-    Write-Host ""
-    Write-Host "Staging all changes..." -ForegroundColor Cyan
-    Invoke-GitWithRetry -GitArgs @("add", "-A")
+    if ($changes) {
+        Write-Host ""
+        Write-Host "Staging all changes..." -ForegroundColor Cyan
+        Invoke-GitWithRetry -GitArgs @("add", "-A")
 
-    Write-Host "Committing..." -ForegroundColor Cyan
-    Invoke-GitWithRetry -GitArgs @("commit", "-m", "update website")
+        Write-Host "Committing..." -ForegroundColor Cyan
+        Invoke-GitWithRetry -GitArgs @("commit", "-m", "update website")
+    }
 
     Write-Host "Pushing to GitHub..." -ForegroundColor Cyan
     Invoke-GitWithRetry -GitArgs @("push")
