@@ -1,0 +1,63 @@
+# Reads the Google Calendar every morning, saves any changes to the program and publishes the site.
+# To update right away: GitHub -> Actions -> "Update program and publish" -> "Run workflow".
+
+name: Update program and publish
+
+on:
+  schedule:
+    - cron: '23 3 * * *'   # daily, around 04:23-05:23 Stockholm time
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Read the Google Calendar
+        run: node scripts/fetch-calendar.mjs --report
+
+      - name: Save changes to the program
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- site/data; then
+            git add site/data
+            git commit -m "Update program from calendar"
+            git push
+          elif [ $(( $(date +%s) - $(git log -1 --format=%ct) )) -gt $(( 50 * 86400 )) ]; then
+            # GitHub pauses scheduled runs in repositories with no activity for 60 days (e.g. over the summer)
+            git commit --allow-empty -m "Keep daily calendar updates active"
+            git push
+          fi
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

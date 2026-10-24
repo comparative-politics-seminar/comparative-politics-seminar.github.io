@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comparative Politics Seminar</title>
+  <meta name="description" content="Program of the Comparative Politics Seminar at the Department of Political Science, Stockholm University: current, upcoming and previous seminars.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231f3a68'/><text x='16' y='22' font-family='Georgia,serif' font-size='16' font-weight='700' fill='white' text-anchor='middle'>CP</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <p class="eyebrow" id="affiliation">Department of Political Science · Stockholm University</p>
+      <h1 id="name">Comparative Politics Seminar</h1>
+      <p class="practical" id="practical"></p>
+      <p class="about" id="about"></p>
+      <div class="subscribe" id="subscribe"></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="search">
+      <label for="q" class="visually-hidden">Search all seminars</label>
+      <svg class="search-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="q" type="search" placeholder="Search by name, affiliation or title" autocomplete="off">
+    </div>
+    <p class="search-status" id="search-status" aria-live="polite"></p>
+
+    <div id="content">
+      <noscript><p>This page needs JavaScript to show the seminar program.</p></noscript>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap" id="footer"></div>
+  </footer>
+
+  <script src="data/seminars.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

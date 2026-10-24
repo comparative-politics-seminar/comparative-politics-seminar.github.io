@@ -1,0 +1,48 @@
+{
+  "name": "Comparative Politics Seminar",
+  "department": "Department of Political Science",
+  "university": "Stockholm University",
+  "organizers": ["Jan Teorell", "Sirus Dehdari"],
+  "contact": "jan.teorell@statsvet.su.se",
+  "about": "The Comparative Politics Seminar is a research seminar series at the Department of Political Science, Stockholm University. Researchers present ongoing work in comparative politics, political economy and related fields. Everyone is welcome.",
+
+  "standard": {
+    "weekday": "Tuesday",
+    "start": "11:45",
+    "end": "12:45",
+    "room": "F702"
+  },
+
+  "calendarId": "9c7e333112fe243af133c93bed6f3bd7ace8893981eb2b97689e3509ee66127c@group.calendar.google.com",
+
+  "jointSeminarName": "Higher Research Seminar",
+
+  "affiliations": {
+    "SU": "Stockholm University",
+    "UU": "Uppsala University",
+    "GU": "University of Gothenburg",
+    "LU": "Lund University",
+    "LiU": "Linköping University",
+    "UMU": "Umeå University",
+    "SSE": "Stockholm School of Economics",
+    "SOFI": "Swedish Institute for Social Research (SOFI)",
+    "SITE": "Stockholm Institute of Transition Economics",
+    "UI": "Swedish Institute of International Affairs",
+    "UiO": "University of Oslo",
+    "BI": "BI Norwegian Business School",
+    "KCL": "King's College London",
+    "UCL": "University College London",
+    "LSE": "London School of Economics",
+    "MSU": "Michigan State University",
+    "WZB": "WZB Berlin Social Science Center",
+    "UB": "University of Barcelona",
+    "IIES": "Institute for International Economic Studies, Stockholm University",
+    "UCLA": "University of California, Los Angeles",
+    "Gothenburg University": "University of Gothenburg",
+    "Oxford University": "University of Oxford",
+    "Södertörn": "Södertörn University",
+    "Marburg": "University of Marburg",
+    "Dartmouth": "Dartmouth College",
+    "Princeton": "Princeton University"
+  }
+}
