@@ -96,7 +96,9 @@ h1 {
 }
 .practical span:not(:last-child)::after { content: "·"; margin: 0 10px; color: var(--header-muted); }
 .about { margin: 12px 0 0; max-width: 62ch; color: var(--header-muted); }
-.about a { color: var(--header-text); text-underline-offset: 2px; }
+.about a, .practical a { color: var(--header-text); text-underline-offset: 2px; }
+.practical a { text-decoration-color: var(--header-muted); }
+.practical a:hover { text-decoration-color: currentColor; }
 
 .subscribe { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .button {

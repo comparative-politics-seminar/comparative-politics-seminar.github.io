@@ -263,14 +263,16 @@
 
   $('name').textContent = settings.name;
   $('affiliation').textContent = `${settings.department} · ${settings.university}`;
+  // Texts in settings.json may contain links written as [text](https://...)
+  const withLinks = text => esc(text)
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
   const usual = normOf(mainTerm ?? nowTerm);
   $('practical').innerHTML =
     `<span>${esc(usual.weekday)}s ${esc(usual.start)}–${esc(usual.end)}</span>` +
     `<span>Room ${esc(std.room)}</span>` +
-    `<span>Organized by ${esc(listJoin(settings.organizers))}</span>`;
-  // The about text may contain links written as [text](https://...)
-  $('about').innerHTML = esc(settings.about)
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    `<span>Organized by ${withLinks(listJoin(settings.organizers))}</span>`;
+  $('about').innerHTML = withLinks(settings.about);
 
   const cid = settings.calendarId;
   $('subscribe').innerHTML =
