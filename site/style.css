@@ -100,16 +100,21 @@ h1 {
 .practical a { text-decoration-color: var(--header-muted); }
 .practical a:hover { text-decoration-color: currentColor; }
 
-.subscribe { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.subscribe { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 22px; }
+.subscribe-label { margin-right: 4px; font-size: 14px; font-weight: 500; color: var(--header-muted); }
 .button {
   display: inline-block;
-  padding: 8px 14px;
+  padding: 7px 13px;
+  border: 0;
   border-radius: 8px;
   background: var(--header-text);
   color: var(--header-bg);
+  font: inherit;
   font-size: 14px;
   font-weight: 600;
+  line-height: 1.4;
   text-decoration: none;
+  cursor: pointer;
 }
 .button.secondary {
   background: transparent;
@@ -301,4 +306,5 @@ mark { background: var(--mark); color: inherit; border-radius: 2px; padding: 0 1
   .next-title { font-size: 18px; }
   .practical { flex-direction: column; }
   .practical span:not(:last-child)::after { content: none; }
+  .subscribe-label { flex-basis: 100%; }
 }

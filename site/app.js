@@ -274,10 +274,33 @@
     `<span>Organized by ${withLinks(listJoin(settings.organizers))}</span>`;
   $('about').innerHTML = withLinks(settings.about);
 
+  // One button per calendar app: a webcal:// link opens whatever the computer's default calendar
+  // app is (Apple Calendar on a Mac, even with Outlook installed), so Outlook gets its own
+  // "subscribe from web" link, and "Copy link" works with any other app.
   const cid = settings.calendarId;
+  const icsUrl = `https://calendar.google.com/calendar/ical/${encodeURIComponent(cid)}/public/basic.ics`;
   $('subscribe').innerHTML =
-    `<a class="button" href="https://calendar.google.com/calendar/u/0?cid=${encodeURIComponent(btoa(cid))}" target="_blank" rel="noopener">Add to Google Calendar</a>` +
-    `<a class="button secondary" href="webcal://calendar.google.com/calendar/ical/${encodeURIComponent(cid)}/public/basic.ics">Subscribe in Apple / Outlook</a>`;
+    '<span class="subscribe-label">Add to your calendar:</span>' +
+    `<a class="button" href="https://calendar.google.com/calendar/u/0?cid=${encodeURIComponent(btoa(cid))}" target="_blank" rel="noopener">Google Calendar</a>` +
+    `<a class="button" href="https://outlook.office.com/calendar/0/addfromweb?url=${encodeURIComponent(icsUrl)}&name=${encodeURIComponent(settings.name)}" target="_blank" rel="noopener">Outlook</a>` +
+    `<a class="button" href="${icsUrl.replace(/^https:/, 'webcal:')}">Apple Calendar</a>` +
+    '<button type="button" class="button secondary" id="copy-link">Copy calendar link</button>';
+
+  $('copy-link').addEventListener('click', async e => {
+    const btn = e.currentTarget;
+    try {
+      await navigator.clipboard.writeText(icsUrl);
+    } catch {
+      // Clipboard API unavailable (e.g. page opened from disk): fall back to a hidden text field
+      const field = Object.assign(document.createElement('textarea'), { value: icsUrl });
+      document.body.append(field);
+      field.select();
+      document.execCommand('copy');
+      field.remove();
+    }
+    btn.textContent = 'Link copied';
+    setTimeout(() => { btn.textContent = 'Copy calendar link'; }, 2500);
+  });
 
   const updated = new Date(data.updated).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   $('footer').innerHTML =
